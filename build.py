@@ -48,8 +48,8 @@ if not is_ci and is_windows:
 if not sys.version_info >= (3, 6):
     error('Requires Python 3.6+')
 
-if 'ANDROID_SDK_ROOT' not in os.environ:
-    error('Please add Android SDK path to ANDROID_SDK_ROOT environment variable!')
+if 'ANDROID_HOME' not in os.environ:
+    error('Please add Android SDK path to ANDROID_HOME environment variable!')
 
 try:
     subprocess.run(['javac', '-version'],
@@ -62,7 +62,7 @@ archs = ['armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64']
 default_targets = ['magisk', 'magiskinit', 'magiskboot', 'busybox']
 support_targets = default_targets + ['magiskpolicy', 'resetprop', 'test']
 
-sdk_path = os.environ['ANDROID_SDK_ROOT']
+sdk_path = os.environ['ANDROID_HOME']
 ndk_root = op.join(sdk_path, 'ndk')
 ndk_path = op.join(ndk_root, 'magisk')
 ndk_build = op.join(ndk_path, 'ndk-build')
@@ -208,7 +208,7 @@ def find_build_tools():
     global build_tools
     if build_tools:
         return build_tools
-    build_tools_root = op.join(os.environ['ANDROID_SDK_ROOT'], 'build-tools')
+    build_tools_root = op.join(os.environ['ANDROID_HOME'], 'build-tools')
     ls = os.listdir(build_tools_root)
     # Use the latest build tools available
     ls.sort()
