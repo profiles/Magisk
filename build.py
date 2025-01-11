@@ -258,7 +258,10 @@ def binary_dump(src, var_name):
 
 def run_ndk_build(flags):
     os.chdir('native')
-    proc = system(f'{ndk_build} {flags} -j{cpu_count}')
+    cmd = f'{ndk_build} {flags} -j{cpu_count}'
+    if 'darwin' == platform.system().lower():
+        cmd = 'arch -x86_64 ' + cmd
+    proc = system(cmd)
     if proc.returncode != 0:
         error('Build binary failed!')
     os.chdir('..')
